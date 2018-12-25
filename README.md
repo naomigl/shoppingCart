@@ -1,45 +1,64 @@
-**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**
+Shopping Cart
+=============
 
-When you're done, you can delete the content in this README and update the file with details for others getting started with your repository.
+An executable for calculating the total price of a given cart.
 
-*We recommend that you open this README in another tab as you perform the tasks below. You can [watch our video](https://youtu.be/0ocf7u76WSo) for a full demo of all the steps in this tutorial. Open the video in a new tab to avoid leaving Bitbucket.*
+How to run
+----------
 
----
+The program can be executed with the jar file, using the java command:
 
-## Edit a file
+```
+java -jar shoppingCart.jar product1 product 2 ... pproductN
+```
 
-You’ll start by editing this README file to learn how to edit a file in Bitbucket.
+How to build
+------------
 
-1. Click **Source** on the left side.
-2. Click the README.md link from the list of files.
-3. Click the **Edit** button.
-4. Delete the following text: *Delete this line to make a change to the README from Bitbucket.*
-5. After making your change, click **Commit** and then **Commit** again in the dialog. The commit page will open and you’ll see the change you just made.
-6. Go back to the **Source** page.
+The project was built using the Scala Build Tool (SBT):
 
----
+* [SBT](https://www.scala-sbt.org/)
 
-## Create a file
+To install the dependencies and run the tests, place yourself in the project folder and execute:
 
-Next, you’ll add a new file to this repository.
+```
+sbt test
+```
 
-1. Click the **New file** button at the top of the **Source** page.
-2. Give the file a filename of **contributors.txt**.
-3. Enter your name in the empty file space.
-4. Click **Commit** and then **Commit** again in the dialog.
-5. Go back to the **Source** page.
+To create an executable jar, place yourself in the project folder and execute:
 
-Before you move on, go ahead and explore the repository. You've already seen the **Source** page, but check out the **Commits**, **Branches**, and **Settings** pages.
+```
+sbt assembly
+```
 
----
+The program was written using the Scala programming language (v. 2.12.8):
 
-## Clone a repository
+* [Scala](https://www.scala-lang.org/)
 
-Use these steps to clone from SourceTree, our client for using the repository command-line free. Cloning allows you to work on your files locally. If you don't yet have SourceTree, [download and install first](https://www.sourcetreeapp.com/). If you prefer to clone from the command line, see [Clone a repository](https://confluence.atlassian.com/x/4whODQ).
 
-1. You’ll see the clone button under the **Source** heading. Click that button.
-2. Now click **Check out in SourceTree**. You may need to create a SourceTree account or log in.
-3. When you see the **Clone New** dialog in SourceTree, update the destination path and name if you’d like to and then click **Clone**.
-4. Open the directory you just created to see your repository’s files.
+Assumptions
+-----------
 
-Now that you're more familiar with your Bitbucket repository, go ahead and add a new file locally. You can [push your change back to Bitbucket with SourceTree](https://confluence.atlassian.com/x/iqyBMg), or you can [add, commit,](https://confluence.atlassian.com/x/8QhODQ) and [push from the command line](https://confluence.atlassian.com/x/NQ0zDQ).
+The following assumptions have been made when designing the solution:
+
+1) The number of each product passed as an argument to the program will be the number of times the product name is passed.
+2) All discounts are available at the time the program is executed. There is no expiration date to any product nor discounts.
+3) A product must have a price and a tax percentage in order to be valid.
+
+Solution description
+--------------------
+The program follows the next steps:
+
+1) Parses the products given as arguments, grouping them when equal in order to calculate the number of each of them.
+2) Converts each productName into a Valid or UnregisteredProduct with its own price and tax percentage.
+2) Calculates all intermediate steps of the bill (subtotal, discounts, base, taxes, total) and prints them.
+3) Prints all products that have not been taken into account when calculating the bill.
+
+What could be improved
+----------------------
+ - Product information and its retrieval could be stored in a database, or at least be changed easily
+ (right now there is no other way to add a product or change its price but to change it in code).
+ - Discounts could be as well consulted via API in some other module, so that each part of the solution fulfill 
+ the single responsibility principle.
+ - Code could be more testable using classes for private data, and traits that could be mocked in tests for 
+ ProductDatabase and DiscountDatabase. 
